@@ -19,17 +19,10 @@ def handler(event, _):
         'createdAt': {'N': str(data.get('createdAt', None))},
         'description': {'S': data.get('description', None)},
         'interventionAddress': {'S': data.get('interventionAddress', None)},
-<<<<<<< HEAD
         'phoneNumber': {'S': data.get('phoneNumber', None)},
         'reporterEmail': {'S': data.get('reporterEmail', None)},
         'reporterName': {'S': data.get('reporterName', None)},
         'status': {'S': data.get('status', None)}
-=======
-        'phoneNumber': {'S' : data.get('phoneNumber', None)},
-        'reporterEmail': {'S': data.get('reporterEmail', None)},
-        'reporterName': {'S' : data.get('reporterName', None)},
-        'status': {'S' : data.get('status', None)},
->>>>>>> be70e0a6a245637d73f79ca91784a20ed07df237
     }
 
     payload = common.strip_empty_values(payload)
