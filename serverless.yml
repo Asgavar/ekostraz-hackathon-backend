@@ -61,6 +61,7 @@ functions:
           path: interventions
           method: post
           cors: true
+
   interventionsGet:
     handler: interventions_get.handler
     events:
@@ -75,6 +76,27 @@ functions:
           path: comments/{interventionId}
           method: post
           cors: true
+
+  fileUrlGet:
+    handler: attachments_get_url.handler
+    events:
+      - http:
+          path: generateUploadUrl/{FileName}
+          method: get
+
+  attachmentsPost:
+    handler: attachments_post.handler
+    events:
+      - http:
+          path: attachments/
+          method: post
+
+  attachmentsGet:
+    handler: attachments_get.handler
+    events:
+      - http:
+          path: attachments/{interventionID}
+          method: get
 
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
@@ -142,6 +164,24 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    Attachments:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Attachments
+        AttributeDefinitions:
+          - AttributeName: interventionId
+            AttributeType: S
+          - AttributeName: attachmentUrl
+            AttributeType: S
+        KeySchema:
+          - AttributeName: interventionId
+            KeyType: HASH
+          - AttributeName: attachmentUrl
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
     AttachmentsBucket:
       Type: AWS::S3::Bucket
       Properties:
