@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: ekostraz-artur
+service: ekostraz
 #app: your-app-name
 #tenant: your-tenant-name
 
@@ -30,24 +30,22 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
-        - dynamodb:*
+        - dynamodb:PutItem
       Resource:
-        Fn::GetAtt:
-          - InterventionsTable
-          - Arn
+        - Fn::GetAtt:
+            - InterventionsTable
+            - Arn
+        - Fn::GetAtt:
+            - InterventionCommentsTable
+            - Arn
 
 # you can define service wide environment variables here
 #  environment:
 #    variable1: value1
 
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.py
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.py
-#    - exclude-me-dir/**
+package:
+  include:
+    - common.py
 
 functions:
   interventionsPost:
@@ -56,6 +54,7 @@ functions:
       - http:
           path: interventions
           method: post
+<<<<<<< HEAD
   interventionsGet:
     handler: interventions_get.handler
     events:
@@ -63,6 +62,14 @@ functions:
           path: interventions/{id}
           method: get
 
+=======
+  commentsPost:
+    handler: comments_post.handler
+    events:
+      - http:
+          path: comments/{interventionId}
+          method: post
+>>>>>>> be70e0a6a245637d73f79ca91784a20ed07df237
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
@@ -110,6 +117,23 @@ resources:
             AttributeType: N
         KeySchema:
           - AttributeName: id
+            KeyType: HASH
+          - AttributeName: createdAt
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    InterventionCommentsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: comments
+        AttributeDefinitions:
+          - AttributeName: interventionId
+            AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: N
+        KeySchema:
+          - AttributeName: interventionId
             KeyType: HASH
           - AttributeName: createdAt
             KeyType: RANGE
