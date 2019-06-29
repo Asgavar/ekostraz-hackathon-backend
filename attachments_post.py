@@ -13,3 +13,10 @@ def handler(event, _):
     payload = common.strip_empty_values(payload)
 
     dynamodb.put_item(TableName='attachments', Item=payload)
+
+    return {
+        'statusCode': 201,
+        'headers': {
+            'Access-Control-Allow-Origin': '*',
+        }
+    }

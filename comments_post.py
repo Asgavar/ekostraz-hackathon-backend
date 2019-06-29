@@ -27,4 +27,7 @@ def handler(event, context):
     return {
         'statusCode': 201,
         'body': str(payload['interventionId']),
+        'headers': {
+            'Access-Control-Allow-Origin': '*',
+        }
     }

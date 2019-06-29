@@ -16,7 +16,7 @@ def handler(event, _):
     assigned_id = str(uuid.uuid4())
     payload = {
         'id': {'S': assigned_id},
-        'createdAt': {'N': str(data.get('createdAt', None))},
+        'createdAt': {'S': data.get('createdAt', None)},
         'description': {'S': data.get('description', None)},
         'interventionAddress': {'S': data.get('interventionAddress', None)},
         'phoneNumber': {'S': data.get('phoneNumber', None)},
@@ -32,4 +32,8 @@ def handler(event, _):
     return {
         'statusCode': 201,
         'body': json.dumps({'id': assigned_id}),
+
+        'headers': {
+            'Access-Control-Allow-Origin': '*',
+        }
     }
