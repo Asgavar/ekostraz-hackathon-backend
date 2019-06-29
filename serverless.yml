@@ -45,6 +45,12 @@ provider:
             - InterventionCommentsTable
             - Arn
 
+    - Effect: "Allow"
+        Action:
+          - "s3:PutObject"
+        Resource:
+          Fn::Join: ['', [Fn::GetAtt: [ SolutionBucket, Arn ], '/*'] ]
+
 # you can define service wide environment variables here
 #  environment:
 #    variable1: value1
