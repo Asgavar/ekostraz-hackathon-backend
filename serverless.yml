@@ -32,9 +32,12 @@ provider:
       Action:
         - dynamodb:PutItem
       Resource:
-        Fn::GetAtt:
-          - InterventionsTable
-          - Arn
+        - Fn::GetAtt:
+            - InterventionsTable
+            - Arn
+        - Fn::GetAtt:
+            - InterventionCommentsTable
+            - Arn
 
 # you can define service wide environment variables here
 #  environment:
@@ -55,6 +58,12 @@ functions:
     events:
       - http:
           path: interventions
+          method: post
+  commentsPost:
+    handler: comments_post.handler
+    events:
+      - http:
+          path: comments/{interventionId}
           method: post
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
@@ -103,6 +112,23 @@ resources:
             AttributeType: N
         KeySchema:
           - AttributeName: id
+            KeyType: HASH
+          - AttributeName: createdAt
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    InterventionCommentsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: comments
+        AttributeDefinitions:
+          - AttributeName: interventionId
+            AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: N
+        KeySchema:
+          - AttributeName: interventionId
             KeyType: HASH
           - AttributeName: createdAt
             KeyType: RANGE
