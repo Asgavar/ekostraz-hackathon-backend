@@ -80,6 +80,13 @@ functions:
           path: interventions/{id}
           method: get
 
+  interventionsList:
+    handler: interventions_list.handler
+    events:
+      - http:
+          path: interventions
+          method: get
+
   commentsPost:
     handler: comments_post.handler
     events:
