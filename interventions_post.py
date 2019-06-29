@@ -18,7 +18,10 @@ def handler(event, _):
         'createdAt': {'N': str(data.get('createdAt', None))},
         'description': {'S': data.get('description', None)},
         'interventionAddress': {'S': data.get('interventionAddress', None)},
+        'phoneNumber': {'S' : data.get('phoneNumber'), None)},
         'reporterEmail': {'S': data.get('reporterEmail', None)},
+        'reporterName': {'S' : data.get('reporterName'), None)},
+        'status': {'S' : data.get('status'), None)},
     }
 
     payload = {  # filter out non-existent keys
