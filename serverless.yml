@@ -54,7 +54,6 @@ functions:
       - http:
           path: interventions
           method: post
-<<<<<<< HEAD
   interventionsGet:
     handler: interventions_get.handler
     events:
@@ -62,14 +61,13 @@ functions:
           path: interventions/{id}
           method: get
 
-=======
   commentsPost:
     handler: comments_post.handler
     events:
       - http:
           path: comments/{interventionId}
           method: post
->>>>>>> be70e0a6a245637d73f79ca91784a20ed07df237
+
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
