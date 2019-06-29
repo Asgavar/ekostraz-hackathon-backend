@@ -12,4 +12,4 @@ def handler(event, _):
 
     payload = common.strip_empty_values(payload)
 
-    dynamodb.put_item(TableName='interventions', Item=payload)
+    dynamodb.put_item(TableName='attachments', Item=payload)

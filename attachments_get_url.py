@@ -1,13 +1,17 @@
 import boto3
+from botocore.exceptions import ClientError
+from pip._internal.utils import logging
 
 
 def handler(event, _):
-    bucket_location = boto3.client('s3').get_bucket_location(Bucket='ekostraz-attachments2')
-    object_url = "https://s3-{0}.amazonaws.com/{1}/{2}".format(
-        bucket_location['eu-west-1'],
-        'ekostraz-attachments2',
-        event['fileName'])
+    s3_client = boto3.client('s3')
+    try:
+        response = s3_client.generate_presigned_url('get_object',
+                                                    Params={'Bucket': "ekostraz-attachments2",
+                                                            'Key': event['fileName']},
+                                                    ExpiresIn=3600)
+    except ClientError as e:
+        logging.error(e)
+        return None
 
-    # Bucket name hardcoded
-
-    return object_url;
+    return response

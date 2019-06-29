@@ -6,10 +6,10 @@ from boto3.dynamodb.conditions import Key
 
 def handler(event, _):
     dynamodb = boto3.resource('dynamodb', region_name='eu-west-1')
-    table = dynamodb.Table('interventions')
+    table = dynamodb.Table('attachments')
 
     response = table.query(
-        KeyConditionExpression=Key('id').eq(event['interventionId'])
+        KeyConditionExpression=Key('interventionId').eq(event['interventionId'])
     )
 
     return response['Items']

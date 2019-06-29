@@ -44,12 +44,16 @@ provider:
         - Fn::GetAtt:
             - InterventionCommentsTable
             - Arn
+        - Fn::GetAtt:
+            - Attachments
+            - Arn
 
     - Effect: "Allow"
-        Action:
-          - "s3:PutObject"
-        Resource:
-          Fn::Join: ['', [Fn::GetAtt: [ SolutionBucket, Arn ], '/*'] ]
+      Action:
+        - "s3:PutObject"
+        - "s3:GetObject"
+      Resource:
+        Fn::Join: ['', [Fn::GetAtt: [ AttachmentsBucket, Arn ], '/*'] ]
 
 # you can define service wide environment variables here
 #  environment:
@@ -173,7 +177,7 @@ resources:
     Attachments:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Attachments
+        TableName: attachments
         AttributeDefinitions:
           - AttributeName: interventionId
             AttributeType: S
