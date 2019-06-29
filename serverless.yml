@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: aws-python # NOTE: update this with your service name
+service: ekostraz-artur
 #app: your-app-name
 #tenant: your-tenant-name
 
@@ -21,27 +21,20 @@ service: aws-python # NOTE: update this with your service name
 
 provider:
   name: aws
-  runtime: python2.7
+  runtime: python3.7
 
 # you can overwrite defaults here
 #  stage: dev
-#  region: us-east-1
+  region: eu-west-1
 
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        Fn::GetAtt:
+          - InterventionsTable
+          - Arn
 
 # you can define service wide environment variables here
 #  environment:
@@ -57,16 +50,12 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
-
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
-#    Check the event documentation for details
-#    events:
-#      - http:
-#          path: users/create
-#          method: get
+  interventionsPost:
+    handler: interventions_post.handler
+    events:
+      - http:
+          path: interventions
+          method: post
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
@@ -101,13 +90,22 @@ functions:
 #      variable2: value2
 
 # you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
+resources:
+  Resources:
+    InterventionsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: interventions
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: N
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: createdAt
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
