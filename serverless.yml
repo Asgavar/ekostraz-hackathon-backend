@@ -95,18 +95,18 @@ functions:
           method: post
           cors: true
 
-  fileUrlGet:
-    handler: attachments_get_url.handler
+  generateUploadUrl:
+    handler: generate_upload_url.handler
     events:
       - http:
-          path: generateUploadUrl/{FileName}
-          method: get
+          path: generate-upload-url
+          method: post
 
   attachmentsPost:
     handler: attachments_post.handler
     events:
       - http:
-          path: attachments/
+          path: attachments
           method: post
 
   attachmentsGet:
