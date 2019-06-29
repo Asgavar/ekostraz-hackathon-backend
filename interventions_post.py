@@ -5,6 +5,8 @@ import uuid
 
 import boto3
 
+import common
+
 l = logging.getLogger()
 
 
@@ -24,10 +26,7 @@ def handler(event, _):
         'status': {'S' : data.get('status', None)},
     }
 
-    payload = {  # filter out non-existent keys
-        k: payload[k] for k in payload
-        if payload[k].get('S', payload[k].get('N')) is not None
-    }
+    payload = common.strip_empty_values(payload)
 
     dynamodb.put_item(TableName='interventions', Item=payload)
 

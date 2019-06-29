@@ -2,6 +2,8 @@ import json
 
 import boto3
 
+import common
+
 
 def handler(event, context):
     dynamodb = boto3.client('dynamodb', region_name='eu-west-1')
@@ -18,6 +20,7 @@ def handler(event, context):
         k: payload[k] for k in payload
         if payload[k].get('S', payload[k].get('N')) is not None
     }
+    payload = common.strip_empty_values(payload)
 
     dynamodb.put_item(TableName='comments', Item=payload)
 
