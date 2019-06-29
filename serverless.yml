@@ -30,7 +30,7 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
-        - dynamodb:*
+        - dynamodb:PutItem
       Resource:
         Fn::GetAtt:
           - InterventionsTable
