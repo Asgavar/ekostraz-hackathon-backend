@@ -56,6 +56,13 @@ functions:
       - http:
           path: interventions
           method: post
+  interventionsGet:
+    handler: interventions_get.handler
+    events:
+      - http:
+          path: interventions/{id}
+          method: get
+
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
