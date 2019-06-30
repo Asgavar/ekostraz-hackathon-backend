@@ -11,7 +11,7 @@ def handler(event, context):
 
     payload = {
         'interventionId': {'S': event['pathParameters']['interventionId']},
-        'createdAt': {'N': str(data.get('createdAt', None))},
+        'createdAt': {'S': data.get('createdAt', None)},
         'author': {'S': data.get('author', None)},
         'body': {'S': data.get('body', None)},
     }
@@ -22,7 +22,6 @@ def handler(event, context):
 
     return {
         'statusCode': 201,
-        'body': str(payload['interventionId']),
         'headers': {
             'Access-Control-Allow-Origin': '*',
         }
