@@ -185,7 +185,7 @@ resources:
           - AttributeName: interventionId
             AttributeType: S
           - AttributeName: createdAt
-            AttributeType: N
+            AttributeType: S
         KeySchema:
           - AttributeName: interventionId
             KeyType: HASH
