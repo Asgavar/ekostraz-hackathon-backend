@@ -95,6 +95,13 @@ functions:
           method: post
           cors: true
 
+  commentsGet:
+    handler: comments_get.handler
+    events:
+      - http:
+          path: comments/{interventionId}
+          method: get
+
   generateUploadUrl:
     handler: generate_upload_url.handler
     events:
