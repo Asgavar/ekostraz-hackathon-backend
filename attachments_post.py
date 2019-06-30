@@ -1,3 +1,4 @@
+import json
 import boto3
 import common
 
@@ -6,8 +7,8 @@ def handler(event, _):
     dynamodb = boto3.client('dynamodb', region_name='eu-west-1')
 
     payload = {
-        'interventionId': {'S': event['interventionId']},
-        'attachmentUrl': {'S': event['attachmentUrl']},
+        'interventionId': {'S': event['pathParameters']['interventionId']},
+        'attachmentUrl': {'S': json.loads(event['body'])['attachmentUrl']},
     }
 
     payload = common.strip_empty_values(payload)

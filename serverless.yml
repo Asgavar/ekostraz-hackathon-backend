@@ -106,14 +106,14 @@ functions:
     handler: attachments_post.handler
     events:
       - http:
-          path: attachments
+          path: attachments/{interventionId}
           method: post
 
   attachmentsGet:
     handler: attachments_get.handler
     events:
       - http:
-          path: attachments/{interventionID}
+          path: attachments/{interventionId}
           method: get
 
   generateGeoCoordinates:
@@ -215,7 +215,7 @@ resources:
     AttachmentsBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: ekostraz-attachments2
+        BucketName: ekostraz-attachments3
     AttachmentsBucketPolicy:
       Type: 'AWS::S3::BucketPolicy'
       Properties:
