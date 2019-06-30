@@ -16,10 +16,6 @@ def handler(event, context):
         'body': {'S': data.get('body', None)},
     }
 
-    payload = {
-        k: payload[k] for k in payload
-        if payload[k].get('S', payload[k].get('N')) is not None
-    }
     payload = common.strip_empty_values(payload)
 
     dynamodb.put_item(TableName='comments', Item=payload)

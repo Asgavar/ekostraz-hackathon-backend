@@ -8,7 +8,7 @@ def handler(event, _):
     url = s3.generate_presigned_url(
         ClientMethod='put_object',
         Params={
-            'Bucket': 'ekostraz-attachments2',
+            'Bucket': 'ekostraz-attachments4',
             'Key': json.loads(event['body'])['filename'],
         })
 

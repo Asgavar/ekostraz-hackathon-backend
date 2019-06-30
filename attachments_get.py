@@ -12,4 +12,7 @@ def handler(event, _):
         KeyConditionExpression=Key('interventionId').eq(event['interventionId'])
     )
 
-    return response['Items']
+    return {
+        'statusCode': 201,
+        'body': json.dumps(response['Items']),
+    }

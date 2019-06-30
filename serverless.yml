@@ -215,7 +215,7 @@ resources:
     AttachmentsBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: ekostraz-attachments3
+        BucketName: ekostraz-attachments4
     AttachmentsBucketPolicy:
       Type: 'AWS::S3::BucketPolicy'
       Properties:
